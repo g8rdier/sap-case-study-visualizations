@@ -103,7 +103,7 @@ if (is.null(script_dir) || script_dir == "") {
   script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 }
 ggsave(
-  file.path(script_dir, "bcg_matrix.png"),
+  file.path(script_dir, "../../output/portfolio/bcg_matrix.png"),
   width = 10,
   height = 7,
   dpi = 300,

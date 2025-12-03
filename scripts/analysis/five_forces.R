@@ -149,7 +149,7 @@ if (is.null(script_dir) || script_dir == "") {
   script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 }
 ggsave(
-  file.path(script_dir, "five_forces.png"),
+  file.path(script_dir, "../../output/analysis/five_forces.png"),
   plot = p,
   width = 10,
   height = 10,

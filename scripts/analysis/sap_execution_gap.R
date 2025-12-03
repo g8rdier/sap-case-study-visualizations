@@ -173,7 +173,7 @@ if (interactive()) {
   }
 }
 ggsave(
-  file.path(script_dir, "sap_execution_gap.png"),
+  file.path(script_dir, "../../output/analysis/sap_execution_gap.png"),
   plot = p,
   width = 10,
   height = 5,

@@ -104,7 +104,7 @@ if (is.null(script_dir) || script_dir == "") {
   script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 }
 ggsave(
-  file.path(script_dir, "donut_umsatz.png"),
+  file.path(script_dir, "../../output/analysis/donut_umsatz.png"),
   plot = p,
   width = 6,
   height = 6,

@@ -1,4 +1,4 @@
-# 3 Säulen der Cloud Only Strategie (Final & Perfektioniert)
+# Cloud Only Strategie - Drei Säulen (SAP Geschäftsbericht 2024)
 # Laden der benötigten Bibliotheken
 library(ggplot2)
 library(stringr)
@@ -7,29 +7,31 @@ library(stringr)
 # Basis: Geht von y=0 bis y=1.5
 # Säulen: Gehen von y=1.6 bis y=10 (Lücke von 0.1 -> KEINE Überlappung)
 
+# RISE breiter = wichtiger (Cloud ERP ist der Star mit +33% Wachstum!)
 rects <- data.frame(
   id = c(1, 2, 3, 4),
-  xmin = c(0, 1, 4, 7),
-  xmax = c(10, 3, 6, 9),
+  xmin = c(0, 1, 4.5, 7.5),
+  xmax = c(10, 4, 7, 10),
   ymin = c(0, 1.6, 1.6, 1.6),
   ymax = c(1.5, 10, 10, 10),
-  fill = c("#555555", "#2196F3", "#FF9800", "#4CAF50")
+  fill = c("#0070F2", "#2196F3", "#FF9800", "#4CAF50")  # Clean Core in SAP Blau
 )
 
-# 2. Text definieren (mit automatischem Umbruch)
+# 2. Text definieren (mit automatischem Umbruch) - AKTUALISIERT 2024
 texts <- data.frame(
   label = c("Clean Core – Standardisierte Prozesse",
             "RISE with SAP",
-            "Business Tech Platform",
+            "Extension Suite (BTP)",
             "Ecosystem Partner",
-            "Migration in Cloud",
-            "Integrations-Plattform",
-            "Partner-Ökosystem",
-            # Zeithorizonte (unterhalb der Beschreibungen)
-            "KURZFRISTIG:\nMigration bis 2027",
-            "MITTELFRISTIG:\nIntegration & Clean Core",
-            "LANGFRISTIG:\nInnovation via Partner"),
-  x = c(5, 2, 5, 8, 2, 5, 8, 2, 5, 8),
+            # Beschreibungen (aktualisiert)
+            "Cloud ERP Migration (S/4HANA)",
+            "Integration & Erweiterung",
+            "Partner-Innovation",
+            # Zeithorizonte (präzisiert)
+            "KURZFRISTIG:\n2025-2027 Migration",
+            "MITTELFRISTIG:\n2025+ Integration",
+            "LANGFRISTIG:\n2027+ Innovation"),
+  x = c(5, 2.5, 5.75, 8.75, 2.5, 5.75, 8.75, 2.5, 5.75, 8.75),  # X-Positionen angepasst
   y = c(0.75, 9, 9, 9, 6.5, 6.5, 6.5, 3.5, 3.5, 3.5), # Zeithorizonte bei y=3.5
   size = c(5, 5, 5, 5, 4, 4, 4, 3.5, 3.5, 3.5),
   fontface = c("bold", "bold", "bold", "bold", "italic", "italic", "italic", "bold", "bold", "bold"),
@@ -63,7 +65,7 @@ p <- ggplot() +
 # Grafik anzeigen
 print(p)
 
-# Speichern
+# Speichern (PowerPoint-optimiert)
 # Sicherstellen, dass die Datei im gleichen Verzeichnis wie der Code gespeichert wird
 script_dir <- dirname(sys.frame(1)$ofile)
 if (is.null(script_dir) || script_dir == "") {
@@ -71,7 +73,7 @@ if (is.null(script_dir) || script_dir == "") {
   script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 }
 ggsave(
-  file.path(script_dir, "three_pillars_final_v2.png"),
+  file.path(script_dir, "../../output/strategy/cloud_only_strategie_2024.png"),
   plot = p,
   width = 10,
   height = 7,

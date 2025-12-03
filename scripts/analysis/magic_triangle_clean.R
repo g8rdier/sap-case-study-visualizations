@@ -126,7 +126,7 @@ if (is.null(script_dir) || script_dir == "") {
   script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 }
 ggsave(
-  file.path(script_dir, "magic_triangle_clean.png"),
+  file.path(script_dir, "../../output/analysis/magic_triangle_clean.png"),
   plot = p,
   width = 8,
   height = 8,

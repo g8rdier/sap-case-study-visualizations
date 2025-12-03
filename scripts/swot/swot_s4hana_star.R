@@ -1,23 +1,24 @@
-# SWOT-Matrix-Grafik: Qualtrics Übernahme - Theorie vs. Realität
+# SWOT-Matrix-Grafik: S/4HANA Zwangsmigration - Strategisch Richtig, Operativ Komplex
+# Ziel: Visualisierung einer schwierigen, aber notwendigen Entscheidung
 # Laden der benötigten Bibliothek
 library(ggplot2)
 
-# Datenbasis erstellen (Aktualisiert: Fokus auf Scheitern der Strategie)
+# Datenbasis erstellen (Fokus: Notwendige, aber schwierige Transformation)
 swot_data <- data.frame(
   Typ = c(
-    "STÄRKEN (S)\nDas Potenzial (Damals)",
-    "SCHWÄCHEN (W)\nDie Realität (Heute)",
-    "CHANCEN (O)\nVerfehlte Hoffnungen",
-    "RISIKEN (T)\nEingetretene Folgen"
+    "STÄRKEN (S)\nStrategische Notwendigkeit",
+    "SCHWÄCHEN (W)\nOperative Belastung",
+    "CHANCEN (O)\nRealisierte Chancen",
+    "RISIKEN (T)\nTeilweise Realisierte Risiken"
   ),
   Inhalt = c(
-    "- Marktführer CX-Analytics\n- Zugriff auf Experience-Data\n- Ergänzung zur ERP-Suite",
-    "- Extremer Preis (8 Mrd $)\n- Keine technische Integration\n- Kultureller Clash",
-    "(X) Neue Revenue-Streams\n(X) Markt-Differenzierung\nSynergien blieben aus",
-    "- Kostenexplosion ohne ROI\n- Fokusverlust im Kern\n- Notverkauf (IPO 2021)"
+    "- Cloud-Zukunft\n- Technologisch modern\n- Wettbewerbsfähigkeit sichern",
+    "- Hohe Implementierungskosten\n- Langer Support-Aufwand\n- Kundenverluste (Churn) initiiert",
+    "✓ Marktanteile in Cloud gewinnen\n✓ Höhere Cloud-Margen\n✓ KI-Integration möglich",
+    "- Kundenflucht zu MSFT\n- Reputationsschaden (temporär)\n- Mittelstand versucht Abwanderung"
   ),
-  Farbe = c("#4CAF50", "#FF9800", "#AAAAAA", "#F44336"),  # Opportunities grau (nicht realisiert)
-  Alpha = c(0.2, 0.2, 0.15, 0.4),  # Threats kräftiger, Opportunities ausgeblichen
+  Farbe = c("#4CAF50", "#FF9800", "#2196F3", "#FF9966"),  # Threats: zartes Orange statt intensiv rot
+  Alpha = c(0.2, 0.2, 0.25, 0.2),  # Opportunities etwas kräftiger (realisiert), Threats nicht zu stark
   X = c(1, 2, 1, 2),
   Y = c(2, 2, 1, 1),
   stringsAsFactors = FALSE
@@ -51,15 +52,56 @@ p <- ggplot(swot_data, aes(x = X, y = Y)) +
     lineheight = 1.1
   ) +
 
+  # Text-Box links mit Bewertung
+  annotate(
+    "rect",
+    xmin = 0.52, xmax = 1.3, ymin = 0.52, ymax = 0.9,
+    fill = "white",
+    color = "#CCCCCC",
+    linewidth = 0.8
+  ) +
+  annotate(
+    "text",
+    x = 0.91,
+    y = 0.80,
+    label = "Strategie: Richtig",
+    fontface = "bold",
+    size = 3.2,
+    color = "#4CAF50",
+    hjust = 0.5,
+    family = "sans"
+  ) +
+  annotate(
+    "text",
+    x = 0.91,
+    y = 0.71,
+    label = "Cloud ist die Zukunft",
+    size = 2.8,
+    color = "#666666",
+    hjust = 0.5,
+    family = "sans"
+  ) +
+  annotate(
+    "text",
+    x = 0.91,
+    y = 0.62,
+    label = "Umsetzung: Zu aggressiv",
+    fontface = "italic",
+    size = 2.8,
+    color = "#FF9800",
+    hjust = 0.5,
+    family = "sans"
+  ) +
+
   # Bewertung (groß, unten rechts)
   annotate(
     "text",
     x = 2.35,
     y = 0.65,
-    label = "Bewertung:\n2/10",
+    label = "Bewertung:\n6/10",
     fontface = "bold",
     size = 7,
-    color = "#F44336",
+    color = "#4CAF50",
     lineheight = 0.9,
     family = "sans"
   ) +
@@ -70,7 +112,7 @@ p <- ggplot(swot_data, aes(x = X, y = Y)) +
 
   # Titel hinzufügen
   labs(
-    title = "Entscheidung 2: Qualtrics-Übernahme – Theorie vs. Realität"
+    title = "Entscheidung 1: S/4HANA Zwangsmigration (2018-2025) – Strategisch Richtig, Operativ Komplex"
   ) +
 
   # Komplett leeres Theme (PowerPoint-optimiert)
@@ -81,7 +123,7 @@ p <- ggplot(swot_data, aes(x = X, y = Y)) +
     text = element_text(family = "sans"),
     plot.title = element_text(
       hjust = 0.5,
-      size = 14,
+      size = 13,
       face = "bold",
       margin = margin(b = 15),
       family = "sans"
@@ -104,7 +146,7 @@ if (interactive()) {
   }
 }
 ggsave(
-  file.path(script_dir, "swot_qualtrics.png"),
+  file.path(script_dir, "../../output/swot/swot_s4hana_star.png"),
   plot = p,
   width = 10,
   height = 8,
