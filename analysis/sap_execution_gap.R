@@ -1,33 +1,38 @@
 # SAP Execution Gap - Dumbbell Plot (Hantel-Diagramm)
-# Gap-Analyse: Strategisches Potenzial vs. Operative Realität
+# Vergleich der zwei analysierten Entscheidungen: S/4HANA vs. Qualtrics
 # Laden der benötigten Bibliotheken
 library(ggplot2)
 library(dplyr)
 
-# Datenbasis erstellen (Gap-Analyse)
+# Datenbasis erstellen (Nur analysierte Entscheidungen)
 gap_data <- data.frame(
   Thema = c(
     "S/4HANA Migration",
-    "Qualtrics Übernahme",
-    "Cloud Only Strategie"
+    "Qualtrics Übernahme"
   ),
-  Strategie = c(9, 7, 8),
-  Umsetzung = c(5, 2, 4),
+  Strategie = c(9, 7),
+  Umsetzung = c(5, 2),
   # Erklärungen für die Scores
   Strategie_Text = c(
-    "Cloud ist Zukunft",
-    "CX Analytics",
-    "Innovation"
+    "Alternativlos",
+    "Theoretisch gut"
   ),
   Umsetzung_Text = c(
-    "Zwang & Komplexität",
-    "Keine Synergien",
-    "Kosten vs. Zeit"
+    "Schwierig",
+    "Desaströs"
   )
 )
 
 # Thema als Factor für richtige Reihenfolge (von oben nach unten)
 gap_data$Thema <- factor(gap_data$Thema, levels = rev(gap_data$Thema))
+
+# Daten für Legende vorbereiten (Long-Format für Punkte)
+legend_data <- data.frame(
+  Thema = rep(gap_data$Thema, 2),
+  Wert = c(gap_data$Umsetzung, gap_data$Strategie),
+  Typ = factor(rep(c("Operative Umsetzung", "Strategische Absicht"), each = nrow(gap_data)),
+               levels = c("Strategische Absicht", "Operative Umsetzung"))
+)
 
 # Grafik erstellen
 p <- ggplot(gap_data) +
@@ -38,20 +43,19 @@ p <- ggplot(gap_data) +
     linewidth = 3
   ) +
 
-  # Punkte: Umsetzung (Orange)
+  # Punkte mit Legende
   geom_point(
-    aes(x = Umsetzung, y = Thema),
-    color = "#FF9800",
+    data = legend_data,
+    aes(x = Wert, y = Thema, color = Typ),
     size = 12,
     alpha = 0.9
   ) +
 
-  # Punkte: Strategie (Blau)
-  geom_point(
-    aes(x = Strategie, y = Thema),
-    color = "#2196F3",
-    size = 12,
-    alpha = 0.9
+  # Manuelle Farbskala
+  scale_color_manual(
+    name = "",
+    values = c("Strategische Absicht" = "#2196F3", "Operative Umsetzung" = "#FF9800"),
+    breaks = c("Strategische Absicht", "Operative Umsetzung")
   ) +
 
   # Scores IN den Punkten (weiß, fett) - Umsetzung
@@ -94,43 +98,6 @@ p <- ggplot(gap_data) +
     vjust = 0
   ) +
 
-  # Legende als Annotation (rechts oben)
-  annotate(
-    "rect",
-    xmin = 7.5, xmax = 10.5, ymin = 2.7, ymax = 3.3,
-    fill = "white",
-    color = "#cccccc",
-    linewidth = 0.5
-  ) +
-  annotate(
-    "point",
-    x = 7.8, y = 3.15,
-    color = "#2196F3",
-    size = 5
-  ) +
-  annotate(
-    "text",
-    x = 8.3, y = 3.15,
-    label = "Strategie-Potenzial",
-    hjust = 0,
-    size = 3.5,
-    family = "sans"
-  ) +
-  annotate(
-    "point",
-    x = 7.8, y = 2.85,
-    color = "#FF9800",
-    size = 5
-  ) +
-  annotate(
-    "text",
-    x = 8.3, y = 2.85,
-    label = "Operative Realität",
-    hjust = 0,
-    size = 3.5,
-    family = "sans"
-  ) +
-
   # Achsen-Konfiguration
   scale_x_continuous(
     limits = c(0, 11),
@@ -145,10 +112,9 @@ p <- ggplot(gap_data) +
 
   # Beschriftungen
   labs(
-    title = "Das SAP-Dilemma: Strategisches Potenzial vs. Operative Realität",
-    subtitle = "Gap-Analyse der wichtigsten Entscheidungen (2018-2024)",
-    x = "\nScore (1 = niedrig, 10 = hoch)",
-    y = NULL
+    title = "Strategie vs. Realität: Die Analyse",
+    x = "\nStrategie-Potenzial (1 = niedrig, 10 = hoch)",
+    y = "Entscheidungen"
   ) +
 
   # Minimalistisches Design (PowerPoint-optimiert)
@@ -158,17 +124,15 @@ p <- ggplot(gap_data) +
       hjust = 0.5,
       size = 16,
       face = "bold",
-      margin = margin(b = 5),
-      family = "sans"
-    ),
-    plot.subtitle = element_text(
-      hjust = 0.5,
-      size = 11,
-      color = "#666666",
-      margin = margin(b = 20),
+      margin = margin(b = 15),
       family = "sans"
     ),
     axis.title.x = element_text(
+      size = 11,
+      face = "bold",
+      family = "sans"
+    ),
+    axis.title.y = element_text(
       size = 11,
       face = "bold",
       family = "sans"
@@ -187,7 +151,13 @@ p <- ggplot(gap_data) +
     panel.grid.major.x = element_line(color = "#f0f0f0", linewidth = 0.3),
     plot.background = element_rect(fill = "white", color = NA),
     panel.background = element_rect(fill = "white", color = NA),
-    plot.margin = margin(20, 20, 20, 20, "pt")
+    plot.margin = margin(20, 20, 20, 20, "pt"),
+    # Legende unten positionieren
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.text = element_text(size = 11, family = "sans"),
+    legend.spacing.x = unit(0.5, "cm"),
+    legend.margin = margin(t = 10, b = 0)
   )
 
 # Grafik anzeigen
@@ -195,16 +165,18 @@ print(p)
 
 # Grafik speichern (PowerPoint-optimiert)
 # Sicherstellen, dass die Datei im gleichen Verzeichnis wie der Code gespeichert wird
-script_dir <- dirname(sys.frame(1)$ofile)
-if (is.null(script_dir) || script_dir == "") {
-  # Fallback: Verwende das Verzeichnis des Skripts
-  script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+script_dir <- getwd()
+if (interactive()) {
+  # In RStudio: Verwende das Verzeichnis des aktiven Dokuments
+  if (requireNamespace("rstudioapi", quietly = TRUE)) {
+    script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+  }
 }
 ggsave(
   file.path(script_dir, "sap_execution_gap.png"),
   plot = p,
   width = 10,
-  height = 6,
+  height = 5,
   dpi = 300,
   bg = "white"
 )
